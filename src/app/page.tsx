@@ -215,8 +215,28 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-100 py-8 text-center text-sm text-gray-400">
-        © {new Date().getFullYear()} SmartClinic. All rights reserved.
+      <footer className="border-t border-gray-100 py-10 text-center text-sm text-gray-500">
+        <p className="font-medium text-gray-700 mb-2">Built by Leonal Robin D</p>
+        <div className="flex items-center justify-center gap-4 mb-3">
+          <a
+            href="https://github.com/Leonallr10"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-purple-600 transition"
+          >
+            GitHub
+          </a>
+          <span className="text-gray-300">|</span>
+          <a
+            href="https://www.linkedin.com/in/leonal-robin-47b681284/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-purple-600 transition"
+          >
+            LinkedIn
+          </a>
+        </div>
+        <p className="text-gray-400">© {new Date().getFullYear()} SmartClinic. All rights reserved.</p>
       </footer>
     </div>
   );
