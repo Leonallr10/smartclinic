@@ -4,6 +4,7 @@ import DashboardLayout from '@/components/layout/DashboardLayout';
 import DoctorDashboardClient from './client';
 import SmartSearch from '@/components/features/doctor/SmartSearch';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CalendarCheck, Clock, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 export default async function DoctorDashboard() {
   const session = await getSession();
@@ -46,15 +47,20 @@ export default async function DoctorDashboard() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: "Today's Appointments", value: todayAppointments.length },
-            { label: 'Upcoming', value: upcomingAppointments.length },
-            { label: 'Pending Confirmation', value: doctor.appointments.filter((a) => a.status === 'PENDING').length },
-            { label: 'Completed', value: doctor.appointments.filter((a) => a.status === 'COMPLETED').length },
+            { label: "Today's Appointments", value: todayAppointments.length, icon: CalendarCheck, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-100 dark:bg-blue-900/30' },
+            { label: 'Upcoming', value: upcomingAppointments.length, icon: Clock, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-100 dark:bg-amber-900/30' },
+            { label: 'Pending', value: doctor.appointments.filter((a) => a.status === 'PENDING').length, icon: AlertCircle, color: 'text-orange-600 dark:text-orange-400', bg: 'bg-orange-100 dark:bg-orange-900/30' },
+            { label: 'Completed', value: doctor.appointments.filter((a) => a.status === 'COMPLETED').length, icon: CheckCircle2, color: 'text-green-600 dark:text-green-400', bg: 'bg-green-100 dark:bg-green-900/30' },
           ].map((stat) => (
             <Card key={stat.label}>
-              <CardContent className="p-4">
-                <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-                <p className="text-xs text-muted-foreground mt-1">{stat.label}</p>
+              <CardContent className="flex items-center gap-4 p-5">
+                <div className={`rounded-lg p-2.5 ${stat.bg}`}>
+                  <stat.icon className={`size-5 ${stat.color}`} />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+                  <p className="text-xs text-muted-foreground">{stat.label}</p>
+                </div>
               </CardContent>
             </Card>
           ))}

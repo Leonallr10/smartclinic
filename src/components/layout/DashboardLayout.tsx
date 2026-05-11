@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/sidebar';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 interface NavItem {
   label: string;
@@ -98,12 +99,15 @@ export default function DashboardLayout({ children, role, userName }: DashboardL
       </Sidebar>
 
       <SidebarInset>
-        <header className="flex h-14 items-center gap-2 border-b px-4 md:hidden">
-          <SidebarTrigger />
-          <Separator orientation="vertical" className="h-6" />
-          <span className="text-sm font-bold text-primary">SmartClinic</span>
+        <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-2 border-b bg-background/95 backdrop-blur px-4">
+          <div className="flex items-center gap-2">
+            <SidebarTrigger className="md:hidden" />
+            <Separator orientation="vertical" className="h-6 md:hidden" />
+            <span className="text-sm font-bold text-primary md:hidden">SmartClinic</span>
+          </div>
+          <ThemeToggle />
         </header>
-        <main className="p-6 md:p-8 max-w-6xl mx-auto">
+        <main className="p-6 md:p-8">
           {children}
         </main>
       </SidebarInset>

@@ -16,12 +16,7 @@ interface Appointment {
   };
 }
 
-const statusVariant: Record<string, string> = {
-  PENDING: 'bg-amber-100 text-amber-700 hover:bg-amber-100',
-  CONFIRMED: 'bg-green-100 text-green-700 hover:bg-green-100',
-  COMPLETED: 'bg-blue-100 text-blue-700 hover:bg-blue-100',
-  CANCELLED: 'bg-gray-100 text-gray-500 hover:bg-gray-100',
-};
+import { appointmentStatusColors } from '@/lib/status-colors';
 
 export default function DoctorDashboardClient({ appointments }: { appointments: Appointment[] }) {
   if (appointments.length === 0) {
@@ -39,7 +34,7 @@ export default function DoctorDashboardClient({ appointments }: { appointments: 
                 {app.notes && <p className="text-xs text-muted-foreground mt-0.5">{app.notes}</p>}
               </div>
               <div className="text-right">
-                <Badge variant="secondary" className={statusVariant[app.status]}>
+                <Badge variant="secondary" className={appointmentStatusColors[app.status]}>
                   {app.status}
                 </Badge>
                 <p className="text-sm text-muted-foreground mt-1">

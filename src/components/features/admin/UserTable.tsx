@@ -3,16 +3,12 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { type ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { DataTable } from '@/components/ui/data-table';
+import { DataTableColumnHeader } from '@/components/ui/data-table-column-header';
+import { roleColors, activeStatusColors } from '@/lib/status-colors';
 
 interface User {
   id: string;
@@ -45,15 +41,65 @@ export default function UserTable({ users: initialUsers }: { users: User[] }) {
     }
   }
 
-  const filtered = filter
-    ? users.filter((u) => u.role === filter)
-    : users;
+  const columns: ColumnDef<User, unknown>[] = [
+    {
+      accessorKey: 'name',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
+      cell: ({ row }) => <span className="font-medium">{row.getValue('name')}</span>,
+    },
+    {
+      accessorKey: 'email',
+      header: ({ column }) => <DataTableColumnHeader column={column} title="Email" />,
+      cell: ({ row }) => <span className="text-muted-foreground">{row.getValue('email')}</span>,
+    },
+    {
+      accessorKey: 'role',
+      header: 'Role',
+      cell: ({ row }) => {
+        const role = row.getValue('role') as string;
+        return (
+          <Badge variant="secondary" className={roleColors[role]}>
+            {role}
+          </Badge>
+        );
+      },
+    },
+    {
+      accessorKey: 'isActive',
+      header: 'Status',
+      cell: ({ row }) => {
+        const isActive = row.getValue('isActive') as boolean;
+        return (
+          <Badge variant="secondary" className={isActive ? activeStatusColors.active : activeStatusColors.inactive}>
+            {isActive ? 'Active' : 'Inactive'}
+          </Badge>
+        );
+      },
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      cell: ({ row }) => {
+        const user = row.original;
+        return (
+          <Button
+            onClick={() => toggleActive(user.id, user.isActive)}
+            variant="outline"
+            size="sm"
+            className={
+              user.isActive
+                ? 'text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-700'
+                : 'text-green-600 border-green-200 hover:bg-green-50 dark:hover:bg-green-950/30 hover:text-green-700'
+            }
+          >
+            {user.isActive ? 'Deactivate' : 'Activate'}
+          </Button>
+        );
+      },
+    },
+  ];
 
-  const roleColors: Record<string, string> = {
-    PATIENT: 'bg-blue-100 text-blue-700 hover:bg-blue-100',
-    DOCTOR: 'bg-purple-100 text-purple-700 hover:bg-purple-100',
-    ADMIN: 'bg-emerald-100 text-emerald-700 hover:bg-emerald-100',
-  };
+  const filtered = filter ? users.filter((u) => u.role === filter) : users;
 
   return (
     <div className="space-y-4">
@@ -71,53 +117,13 @@ export default function UserTable({ users: initialUsers }: { users: User[] }) {
         ))}
       </div>
 
-      <div className="overflow-x-auto rounded-lg border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filtered.map((u) => (
-              <TableRow key={u.id}>
-                <TableCell className="font-medium">{u.name}</TableCell>
-                <TableCell className="text-muted-foreground">{u.email}</TableCell>
-                <TableCell>
-                  <Badge variant="secondary" className={roleColors[u.role]}>
-                    {u.role}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <Badge variant={u.isActive ? 'secondary' : 'destructive'} className={
-                    u.isActive ? 'bg-green-100 text-green-700 hover:bg-green-100' : ''
-                  }>
-                    {u.isActive ? 'Active' : 'Inactive'}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <Button
-                    onClick={() => toggleActive(u.id, u.isActive)}
-                    variant="outline"
-                    size="sm"
-                    className={
-                      u.isActive
-                        ? 'text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700'
-                        : 'text-green-600 border-green-200 hover:bg-green-50 hover:text-green-700'
-                    }
-                  >
-                    {u.isActive ? 'Deactivate' : 'Activate'}
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      <DataTable
+        columns={columns}
+        data={filtered}
+        pageSize={10}
+        searchKey="name"
+        searchPlaceholder="Search by name..."
+      />
     </div>
   );
 }

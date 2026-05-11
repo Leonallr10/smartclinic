@@ -32,10 +32,10 @@ export default async function DoctorSessionPage({
 
   return (
     <DashboardLayout role="doctor" userName={doctor.user.name}>
-      <div className="max-w-3xl mx-auto space-y-6">
+      <div className="space-y-6">
         <header>
-          <h1 className="text-2xl font-bold text-gray-900">Patient Session</h1>
-          <p className="text-gray-500 mt-1">
+          <h1 className="text-2xl font-bold text-foreground">Patient Session</h1>
+          <p className="text-muted-foreground mt-1">
             {appointment.patient.user.name} &mdash;{' '}
             {new Date(appointment.scheduledAt).toLocaleDateString()}
           </p>

@@ -11,17 +11,17 @@ export default async function PatientProfilePage() {
     include: { user: true },
   });
 
-  if (!patient) return <div className="p-8 text-gray-500">Profile not found.</div>;
+  if (!patient) return <div className="p-8 text-muted-foreground">Profile not found.</div>;
 
   return (
     <DashboardLayout role="patient" userName={patient.user.name}>
-      <div className="max-w-2xl space-y-6">
+      <div className="space-y-6">
         <header>
-          <h1 className="text-2xl font-bold text-gray-900">My Profile</h1>
-          <p className="text-gray-500 mt-1">Update your personal and health information</p>
+          <h1 className="text-2xl font-bold text-foreground">My Profile</h1>
+          <p className="text-muted-foreground mt-1">Update your personal and health information</p>
         </header>
 
-        <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <section className="bg-card rounded-2xl shadow-sm border p-6">
           <ProfileForm
             patientId={patient.id}
             initialData={{

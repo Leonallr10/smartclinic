@@ -48,7 +48,7 @@ export default function DoctorVerificationList({ doctors: initial }: { doctors: 
                 <div className="flex items-center gap-2">
                   <p className="font-medium text-foreground">Dr. {d.user.name}</p>
                   {d.isVerified && (
-                    <Badge variant="secondary" className="bg-green-100 text-green-700">
+                    <Badge variant="secondary" className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">
                       Verified
                     </Badge>
                   )}
@@ -66,7 +66,7 @@ export default function DoctorVerificationList({ doctors: initial }: { doctors: 
                     onClick={() => handleVerify(d.id, true)}
                     variant="outline"
                     size="sm"
-                    className="border-green-200 text-green-700 hover:bg-green-100 hover:text-green-800"
+                    className="border-green-200 text-green-700 hover:bg-green-100 hover:text-green-800 dark:border-green-800 dark:text-green-300 dark:hover:bg-green-900/30"
                   >
                     <CheckCircle className="w-3.5 h-3.5 mr-1" /> Verify
                   </Button>

@@ -24,11 +24,11 @@ export default async function AdminUsersPage() {
     <DashboardLayout role="admin" userName={admin.name}>
       <div className="space-y-6">
         <header>
-          <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
-          <p className="text-gray-500 mt-1">Manage all platform users</p>
+          <h1 className="text-2xl font-bold text-foreground">User Management</h1>
+          <p className="text-muted-foreground mt-1">Manage all platform users</p>
         </header>
 
-        <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <section className="bg-card rounded-2xl shadow-sm border p-6">
           <UserTable users={JSON.parse(JSON.stringify(users))} />
         </section>
       </div>

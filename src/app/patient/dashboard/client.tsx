@@ -18,12 +18,7 @@ interface Appointment {
   };
 }
 
-const statusVariant: Record<string, string> = {
-  PENDING: 'bg-amber-100 text-amber-700 hover:bg-amber-100',
-  CONFIRMED: 'bg-green-100 text-green-700 hover:bg-green-100',
-  COMPLETED: 'bg-blue-100 text-blue-700 hover:bg-blue-100',
-  CANCELLED: 'bg-gray-100 text-gray-500 hover:bg-gray-100',
-};
+import { appointmentStatusColors } from '@/lib/status-colors';
 
 export default function PatientDashboardClient({ appointments }: { appointments: Appointment[] }) {
   const [bookOpen, setBookOpen] = useState(false);
@@ -50,7 +45,7 @@ export default function PatientDashboardClient({ appointments }: { appointments:
                     <p className="text-sm text-muted-foreground">{app.doctor.specialisation || 'General'}</p>
                   </div>
                   <div className="text-right">
-                    <Badge variant="secondary" className={statusVariant[app.status]}>
+                    <Badge variant="secondary" className={appointmentStatusColors[app.status]}>
                       {app.status}
                     </Badge>
                     <p className="text-sm font-medium text-foreground mt-1">

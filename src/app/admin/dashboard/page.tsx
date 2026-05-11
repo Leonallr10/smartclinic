@@ -97,10 +97,10 @@ export default async function AdminDashboard() {
                       </p>
                     </div>
                     <Badge variant="secondary" className={
-                      app.status === 'PENDING' ? 'bg-amber-100 text-amber-700 hover:bg-amber-100' :
-                      app.status === 'CONFIRMED' ? 'bg-green-100 text-green-700 hover:bg-green-100' :
-                      app.status === 'COMPLETED' ? 'bg-blue-100 text-blue-700 hover:bg-blue-100' :
-                      'bg-gray-100 text-gray-500 hover:bg-gray-100'
+                      app.status === 'PENDING' ? 'bg-amber-100 text-amber-700 hover:bg-amber-100 dark:bg-amber-900/30 dark:text-amber-300' :
+                      app.status === 'CONFIRMED' ? 'bg-green-100 text-green-700 hover:bg-green-100 dark:bg-green-900/30 dark:text-green-300' :
+                      app.status === 'COMPLETED' ? 'bg-blue-100 text-blue-700 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-300' :
+                      'bg-muted text-muted-foreground hover:bg-muted'
                     }>
                       {app.status}
                     </Badge>

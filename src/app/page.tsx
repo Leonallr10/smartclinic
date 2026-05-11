@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const features = [
   {
@@ -54,46 +55,47 @@ const aiFeatures = [
 const roles = [
   {
     role: "Patient",
-    color: "bg-blue-50 border-blue-100",
-    badge: "bg-blue-100 text-blue-700",
+    color: "bg-blue-50 border-blue-200 dark:bg-blue-950/30 dark:border-blue-800",
+    badge: "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300",
     perks: ["Book & view appointments", "Access your medical records", "AI symptom checker"],
   },
   {
     role: "Doctor",
-    color: "bg-purple-50 border-purple-100",
-    badge: "bg-purple-100 text-purple-700",
+    color: "bg-purple-50 border-purple-200 dark:bg-purple-950/30 dark:border-purple-800",
+    badge: "bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300",
     perks: ["Manage your schedule", "Write & draft prescriptions", "AI-generated visit summaries"],
   },
   {
     role: "Admin",
-    color: "bg-emerald-50 border-emerald-100",
-    badge: "bg-emerald-100 text-emerald-700",
+    color: "bg-emerald-50 border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-800",
+    badge: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300",
     perks: ["Full CRUD access", "User management", "Platform oversight"],
   },
 ];
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
+    <div className="min-h-screen bg-background font-sans text-foreground">
       {/* Nav */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-gray-100">
+      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur border-b">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <span className="text-lg font-bold tracking-tight text-purple-600">SmartClinic</span>
-          <nav className="hidden sm:flex items-center gap-6 text-sm text-gray-600">
-            <a href="#features" className="hover:text-gray-900 transition">Features</a>
-            <a href="#ai" className="hover:text-gray-900 transition">AI</a>
-            <a href="#roles" className="hover:text-gray-900 transition">Roles</a>
+          <span className="text-lg font-bold tracking-tight text-primary">SmartClinic</span>
+          <nav className="hidden sm:flex items-center gap-6 text-sm text-muted-foreground">
+            <a href="#features" className="hover:text-foreground transition">Features</a>
+            <a href="#ai" className="hover:text-foreground transition">AI</a>
+            <a href="#roles" className="hover:text-foreground transition">Roles</a>
           </nav>
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <Link
               href="/auth/login"
-              className="text-sm font-medium text-gray-700 hover:text-gray-900 transition"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition"
             >
               Sign In
             </Link>
             <Link
               href="/auth/register"
-              className="text-sm font-medium bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition"
+              className="text-sm font-medium bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition"
             >
               Get Started
             </Link>
@@ -103,13 +105,13 @@ export default function HomePage() {
 
       {/* Hero */}
       <section className="max-w-6xl mx-auto px-6 pt-24 pb-20 text-center">
-        <span className="inline-block mb-4 px-3 py-1 text-xs font-semibold bg-purple-100 text-purple-700 rounded-full uppercase tracking-wide">
+        <span className="inline-block mb-4 px-3 py-1 text-xs font-semibold bg-primary/10 text-primary rounded-full uppercase tracking-wide">
           AI-assisted · Multi-role · Full-stack
         </span>
         <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-tight mb-6">
-          Healthcare, <span className="text-purple-600">smarter.</span>
+          Healthcare, <span className="text-primary">smarter.</span>
         </h1>
-        <p className="max-w-2xl mx-auto text-lg text-gray-500 leading-relaxed mb-10">
+        <p className="max-w-2xl mx-auto text-lg text-muted-foreground leading-relaxed mb-10">
           SmartClinic is a multi-role healthcare platform where patients book appointments,
           doctors manage schedules, and an AI assistant handles symptom triage, follow-up
           summaries, and prescription drafting.
@@ -117,13 +119,13 @@ export default function HomePage() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             href="/auth/register"
-            className="px-8 py-3 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition shadow-sm"
+            className="px-8 py-3 bg-primary text-primary-foreground font-medium rounded-xl hover:bg-primary/90 transition shadow-sm"
           >
             Create an account
           </Link>
           <Link
             href="/auth/login"
-            className="px-8 py-3 border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition"
+            className="px-8 py-3 border text-foreground font-medium rounded-xl hover:bg-muted transition"
           >
             Sign in
           </Link>
@@ -131,19 +133,19 @@ export default function HomePage() {
       </section>
 
       {/* Features */}
-      <section id="features" className="bg-gray-50 py-20">
+      <section id="features" className="bg-muted/50 py-20">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-center mb-3">Core modules</h2>
-          <p className="text-center text-gray-500 mb-12">Everything a modern clinic needs, in one platform.</p>
+          <p className="text-center text-muted-foreground mb-12">Everything a modern clinic needs, in one platform.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {features.map((f) => (
               <div
                 key={f.title}
-                className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-md transition"
+                className="bg-card rounded-2xl border p-6 hover:shadow-md transition"
               >
                 <div className="text-3xl mb-3">{f.icon}</div>
-                <h3 className="font-semibold text-gray-900 mb-1">{f.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>
+                <h3 className="font-semibold text-foreground mb-1">{f.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -154,17 +156,17 @@ export default function HomePage() {
       <section id="ai" className="py-20">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-center mb-3">AI touchpoints</h2>
-          <p className="text-center text-gray-500 mb-12">Built-in AI that feels essential, not bolted-on.</p>
+          <p className="text-center text-muted-foreground mb-12">Built-in AI that feels essential, not bolted-on.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {aiFeatures.map((a) => (
               <div
                 key={a.step}
-                className="flex gap-5 bg-gray-50 rounded-2xl border border-gray-100 p-6 hover:shadow-md transition"
+                className="flex gap-5 bg-muted/50 rounded-2xl border p-6 hover:shadow-md transition"
               >
-                <span className="text-2xl font-bold text-purple-200 shrink-0">{a.step}</span>
+                <span className="text-2xl font-bold text-primary/30 shrink-0">{a.step}</span>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">{a.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">{a.desc}</p>
+                  <h3 className="font-semibold text-foreground mb-1">{a.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{a.desc}</p>
                 </div>
               </div>
             ))}
@@ -173,10 +175,10 @@ export default function HomePage() {
       </section>
 
       {/* Roles */}
-      <section id="roles" className="bg-gray-50 py-20">
+      <section id="roles" className="bg-muted/50 py-20">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-center mb-3">Built for every role</h2>
-          <p className="text-center text-gray-500 mb-12">Distinct flows with role-based access control.</p>
+          <p className="text-center text-muted-foreground mb-12">Distinct flows with role-based access control.</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {roles.map((r) => (
               <div
@@ -188,8 +190,8 @@ export default function HomePage() {
                 </span>
                 <ul className="space-y-2">
                   {r.perks.map((p) => (
-                    <li key={p} className="flex items-start gap-2 text-sm text-gray-700">
-                      <span className="mt-0.5 text-purple-500">✓</span>
+                    <li key={p} className="flex items-start gap-2 text-sm text-foreground/80">
+                      <span className="mt-0.5 text-primary">✓</span>
                       {p}
                     </li>
                   ))}
@@ -204,10 +206,10 @@ export default function HomePage() {
       <section className="py-24 text-center">
         <div className="max-w-xl mx-auto px-6">
           <h2 className="text-3xl font-bold mb-4">Ready to get started?</h2>
-          <p className="text-gray-500 mb-8">Join SmartClinic and experience AI-powered healthcare management.</p>
+          <p className="text-muted-foreground mb-8">Join SmartClinic and experience AI-powered healthcare management.</p>
           <Link
             href="/auth/register"
-            className="inline-block px-10 py-3.5 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition shadow-sm"
+            className="inline-block px-10 py-3.5 bg-primary text-primary-foreground font-medium rounded-xl hover:bg-primary/90 transition shadow-sm"
           >
             Create your free account
           </Link>
@@ -215,28 +217,28 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-100 py-10 text-center text-sm text-gray-500">
-        <p className="font-medium text-gray-700 mb-2">Built by Leonal Robin D</p>
+      <footer className="border-t py-10 text-center text-sm text-muted-foreground">
+        <p className="font-medium text-foreground mb-2">Built by Leonal Robin D</p>
         <div className="flex items-center justify-center gap-4 mb-3">
           <a
             href="https://github.com/Leonallr10"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-purple-600 transition"
+            className="hover:text-primary transition"
           >
             GitHub
           </a>
-          <span className="text-gray-300">|</span>
+          <span className="text-muted-foreground/50">|</span>
           <a
             href="https://www.linkedin.com/in/leonal-robin-47b681284/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-purple-600 transition"
+            className="hover:text-primary transition"
           >
             LinkedIn
           </a>
         </div>
-        <p className="text-gray-400">© {new Date().getFullYear()} SmartClinic. All rights reserved.</p>
+        <p className="text-muted-foreground/60">© {new Date().getFullYear()} SmartClinic. All rights reserved.</p>
       </footer>
     </div>
   );

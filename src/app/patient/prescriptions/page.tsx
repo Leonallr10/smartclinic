@@ -11,7 +11,7 @@ export default async function PatientPrescriptionsPage() {
     include: { user: true },
   });
 
-  if (!patient) return <div className="p-8 text-gray-500">Profile not found.</div>;
+  if (!patient) return <div className="p-8 text-muted-foreground">Profile not found.</div>;
 
   const prescriptions = await prisma.prescription.findMany({
     where: { patientId: patient.id },
@@ -26,13 +26,13 @@ export default async function PatientPrescriptionsPage() {
     <DashboardLayout role="patient" userName={patient.user.name}>
       <div className="space-y-6">
         <header>
-          <h1 className="text-2xl font-bold text-gray-900">My Prescriptions</h1>
-          <p className="text-gray-500 mt-1">View and print your prescriptions</p>
+          <h1 className="text-2xl font-bold text-foreground">My Prescriptions</h1>
+          <p className="text-muted-foreground mt-1">View and print your prescriptions</p>
         </header>
 
         {prescriptions.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
-            <p className="text-gray-500">No prescriptions yet.</p>
+          <div className="bg-card rounded-2xl shadow-sm border p-8 text-center">
+            <p className="text-muted-foreground">No prescriptions yet.</p>
           </div>
         ) : (
           <div className="space-y-4">

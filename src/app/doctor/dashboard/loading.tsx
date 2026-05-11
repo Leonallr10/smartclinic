@@ -1,16 +1,16 @@
 export default function Loading() {
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      <aside className="hidden md:block w-56 bg-white border-r border-gray-100" />
+    <div className="min-h-screen bg-background flex">
+      <aside className="hidden md:block w-56 bg-card border-r" />
       <main className="flex-1 p-8">
-        <div className="max-w-6xl mx-auto space-y-8 animate-pulse">
-          <div className="h-8 w-48 bg-gray-200 rounded" />
+        <div className="space-y-8 animate-pulse">
+          <div className="h-8 w-48 bg-muted rounded" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="bg-white h-20 rounded-2xl border border-gray-100" />
+              <div key={i} className="bg-card h-20 rounded-2xl border" />
             ))}
           </div>
-          <div className="bg-white h-64 rounded-2xl border border-gray-100" />
+          <div className="bg-card h-64 rounded-2xl border" />
         </div>
       </main>
     </div>
