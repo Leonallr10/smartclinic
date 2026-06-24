@@ -23,13 +23,15 @@ enum AppointmentStatus {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
+  id               String    @id @default(uuid())
+  name             String
+  email            String    @unique
+  password         String
+  role             Role
+  isActive         Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  resetToken       String?   @unique
+  resetTokenExpiry DateTime?
 
   patient   Patient?
   doctor    Doctor?
