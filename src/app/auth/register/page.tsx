@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Loader2, UserRound, Stethoscope } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Loader2, Stethoscope, UserRound } from 'lucide-react';
+import { AuthCard } from '@/components/marketing/auth-card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -47,103 +47,108 @@ export default function RegisterPage() {
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="text-center space-y-1">
-        <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
-        <CardDescription>Join SmartClinic to manage your healthcare</CardDescription>
-      </CardHeader>
-      <CardContent>
-        {error && (
-          <Alert variant="destructive" className="mb-4">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label>I am a</Label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => setRole('PATIENT')}
-                className={cn(
-                  'flex flex-col items-center gap-2 rounded-lg border-2 p-4 transition-all',
-                  role === 'PATIENT'
-                    ? 'border-primary bg-primary/5 text-primary'
-                    : 'border-muted hover:border-muted-foreground/30'
-                )}
-              >
-                <UserRound className="size-6" />
-                <span className="text-sm font-medium">Patient</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setRole('DOCTOR')}
-                className={cn(
-                  'flex flex-col items-center gap-2 rounded-lg border-2 p-4 transition-all',
-                  role === 'DOCTOR'
-                    ? 'border-primary bg-primary/5 text-primary'
-                    : 'border-muted hover:border-muted-foreground/30'
-                )}
-              >
-                <Stethoscope className="size-6" />
-                <span className="text-sm font-medium">Doctor</span>
-              </button>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
-            <Input
-              id="name"
-              type="text"
-              placeholder="John Doe"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              disabled={isLoading}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="you@example.com"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={isLoading}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Create a strong password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={isLoading}
-            />
-          </div>
-
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading && <Loader2 className="size-4 animate-spin mr-2" />}
-            Create Account
-          </Button>
-        </form>
-
-        <p className="mt-6 text-center text-sm text-muted-foreground">
+    <AuthCard
+      title="Create an account"
+      description="Join SmartClinic to manage your healthcare"
+      footer={
+        <p className="text-center text-sm text-muted-foreground">
           Already have an account?{' '}
-          <Link href="/auth/login" className="text-primary font-medium hover:underline">
+          <Link href="/auth/login" className="font-medium text-violet-600 hover:underline dark:text-violet-400">
             Sign in
           </Link>
         </p>
-      </CardContent>
-    </Card>
+      }
+    >
+      {error && (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <Label>I am a</Label>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => setRole('PATIENT')}
+              className={cn(
+                'flex flex-col items-center gap-2 rounded-xl border p-4 transition-all',
+                role === 'PATIENT'
+                  ? 'border-violet-500/50 bg-violet-500/10 text-violet-700 shadow-sm dark:text-violet-300'
+                  : 'border-border/80 bg-background/40 text-muted-foreground hover:border-violet-500/30 hover:bg-violet-500/5',
+              )}
+            >
+              <UserRound className="size-6" strokeWidth={1.75} />
+              <span className="text-sm font-medium">Patient</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setRole('DOCTOR')}
+              className={cn(
+                'flex flex-col items-center gap-2 rounded-xl border p-4 transition-all',
+                role === 'DOCTOR'
+                  ? 'border-violet-500/50 bg-violet-500/10 text-violet-700 shadow-sm dark:text-violet-300'
+                  : 'border-border/80 bg-background/40 text-muted-foreground hover:border-violet-500/30 hover:bg-violet-500/5',
+              )}
+            >
+              <Stethoscope className="size-6" strokeWidth={1.75} />
+              <span className="text-sm font-medium">Doctor</span>
+            </button>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="name">Full Name</Label>
+          <Input
+            id="name"
+            type="text"
+            placeholder="John Doe"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            disabled={isLoading}
+            className="h-11 rounded-xl border-border/80 bg-background/60 focus-visible:border-violet-500/40 focus-visible:ring-violet-500/20"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="you@example.com"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isLoading}
+            className="h-11 rounded-xl border-border/80 bg-background/60 focus-visible:border-violet-500/40 focus-visible:ring-violet-500/20"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="password">Password</Label>
+          <Input
+            id="password"
+            type="password"
+            placeholder="Create a strong password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={isLoading}
+            className="h-11 rounded-xl border-border/80 bg-background/60 focus-visible:border-violet-500/40 focus-visible:ring-violet-500/20"
+          />
+        </div>
+
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className="h-11 w-full rounded-full bg-violet-600 text-white shadow-[0_10px_28px_-12px_rgba(139,92,246,0.9)] hover:bg-violet-500 dark:bg-violet-500 dark:hover:bg-violet-400"
+        >
+          {isLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
+          Create Account
+        </Button>
+      </form>
+    </AuthCard>
   );
 }

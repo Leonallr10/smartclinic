@@ -38,20 +38,29 @@ export default function VisitSummaryForm({ patientId, appointmentId, patientName
   if (result) {
     return (
       <div className="space-y-4">
-        <Card className="border-green-200 bg-green-50">
-          <CardContent className="p-4">
-            <p className="text-sm font-medium text-green-800 mb-2">AI-Generated Visit Summary</p>
-            <p className="text-sm text-green-700 whitespace-pre-wrap">{result.summary}</p>
+        <Card className="rounded-xl border-violet-500/20 bg-violet-500/5">
+          <CardContent className="space-y-3 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-violet-700 dark:text-violet-300">
+              AI-Generated Visit Summary
+            </p>
+            <p className="text-sm leading-relaxed text-foreground">{result.summary}</p>
+            {result.keyTakeaways && result.keyTakeaways.length > 0 && (
+              <div className="border-t border-violet-500/15 pt-3">
+                <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Key takeaways
+                </p>
+                <ul className="space-y-2">
+                  {result.keyTakeaways.map((t, i) => (
+                    <li key={i} className="flex gap-2.5 text-sm text-foreground/90">
+                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-violet-500" />
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </CardContent>
         </Card>
-        {result.keyTakeaways && result.keyTakeaways.length > 0 && (
-          <div>
-            <p className="text-xs font-medium text-muted-foreground uppercase mb-2">Key Takeaways</p>
-            <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-              {result.keyTakeaways.map((t, i) => <li key={i}>{t}</li>)}
-            </ul>
-          </div>
-        )}
       </div>
     );
   }

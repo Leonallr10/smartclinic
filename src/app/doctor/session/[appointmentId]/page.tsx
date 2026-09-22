@@ -3,6 +3,7 @@ import { getSession } from '@/lib/server-auth';
 import { redirect } from 'next/navigation';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import SessionClient from './client';
+import { formatDate } from '@/lib/format-date';
 
 export default async function DoctorSessionPage({
   params,
@@ -37,7 +38,7 @@ export default async function DoctorSessionPage({
           <h1 className="text-2xl font-bold text-foreground">Patient Session</h1>
           <p className="text-muted-foreground mt-1">
             {appointment.patient.user.name} &mdash;{' '}
-            {new Date(appointment.scheduledAt).toLocaleDateString()}
+            {formatDate(appointment.scheduledAt)}
           </p>
         </header>
 

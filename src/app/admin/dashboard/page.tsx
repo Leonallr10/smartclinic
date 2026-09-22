@@ -4,6 +4,7 @@ import DashboardLayout from '@/components/layout/DashboardLayout';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { formatDateTime } from '@/lib/format-date';
 
 export default async function AdminDashboard() {
   const session = await getSession();
@@ -92,8 +93,7 @@ export default async function AdminDashboard() {
                         {app.patient.user.name} &rarr; Dr. {app.doctor.user.name}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        {new Date(app.scheduledAt).toLocaleDateString()} at{' '}
-                        {new Date(app.scheduledAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {formatDateTime(app.scheduledAt)}
                       </p>
                     </div>
                     <Badge variant="secondary" className={

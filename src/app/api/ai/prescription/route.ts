@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { groq } from '@/lib/ai';
+import { groq, GROQ_MODEL } from '@/lib/ai';
 import { prisma } from '@/lib/prisma';
 import { verifyToken } from '@/lib/auth';
 
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     }
 
     const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
+      model: GROQ_MODEL,
       messages: [
         {
           role: 'system',

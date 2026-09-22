@@ -19,13 +19,15 @@ interface Appointment {
 }
 
 import { appointmentStatusColors } from '@/lib/status-colors';
+import { formatDate, formatTime } from '@/lib/format-date';
+import { ScrollableAppointments } from '@/components/features/patient/RecentChecksPanel';
 
 export default function PatientDashboardClient({ appointments }: { appointments: Appointment[] }) {
   const [bookOpen, setBookOpen] = useState(false);
 
   return (
     <>
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <h2 className="text-xl font-semibold text-foreground">My Appointments</h2>
         <Button onClick={() => setBookOpen(true)} size="sm">
           Book New
@@ -35,32 +37,38 @@ export default function PatientDashboardClient({ appointments }: { appointments:
       {appointments.length === 0 ? (
         <p className="text-sm text-muted-foreground">No appointments yet. Book your first one!</p>
       ) : (
-        <div className="space-y-4">
-          {appointments.map((app) => (
-            <Card key={app.id} className="hover:border-primary/30 transition-colors">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium text-foreground">Dr. {app.doctor.user.name}</p>
-                    <p className="text-sm text-muted-foreground">{app.doctor.specialisation || 'General'}</p>
+        <ScrollableAppointments>
+          <div className="space-y-4">
+            {appointments.map((app) => (
+              <Card key={app.id} className="transition-colors hover:border-primary/30">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-foreground">Dr. {app.doctor.user.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {app.doctor.specialisation || 'General'}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <Badge variant="secondary" className={appointmentStatusColors[app.status]}>
+                        {app.status}
+                      </Badge>
+                      <p className="mt-1 text-sm font-medium text-foreground">
+                        {formatDate(app.scheduledAt)}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {formatTime(app.scheduledAt)}
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <Badge variant="secondary" className={appointmentStatusColors[app.status]}>
-                      {app.status}
-                    </Badge>
-                    <p className="text-sm font-medium text-foreground mt-1">
-                      {new Date(app.scheduledAt).toLocaleDateString()}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {new Date(app.scheduledAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </p>
+                  <div className="mt-3">
+                    <AppointmentActions appointmentId={app.id} status={app.status} role="PATIENT" />
                   </div>
-                </div>
-                <AppointmentActions appointmentId={app.id} status={app.status} role="PATIENT" />
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </ScrollableAppointments>
       )}
 
       <BookAppointmentModal open={bookOpen} onClose={() => setBookOpen(false)} />

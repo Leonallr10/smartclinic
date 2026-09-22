@@ -23,11 +23,15 @@ export function useSymptomCheck() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ symptoms }),
       });
-      if (!res.ok) throw new Error('Check failed');
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Check failed');
+      }
       const data = await res.json();
       setResult(data);
     } catch (e) {
-      setError('Something went wrong. Please try again.');
+      setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.');
+      throw e;
     } finally {
       setLoading(false);
     }

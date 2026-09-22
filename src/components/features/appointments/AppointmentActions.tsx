@@ -33,14 +33,14 @@ export default function AppointmentActions({ appointmentId, status, role }: Prop
   if (status === 'COMPLETED' || status === 'CANCELLED') return null;
 
   return (
-    <div className="flex gap-2 mt-2">
+    <div className="flex flex-wrap items-center gap-2">
       {role === 'DOCTOR' && status === 'PENDING' && (
         <Button
           onClick={() => handle('CONFIRMED')}
           disabled={loading}
           variant="outline"
           size="sm"
-          className="border-green-200 text-green-700 hover:bg-green-100 hover:text-green-800"
+          className="rounded-lg border-emerald-500/30 text-emerald-700 hover:bg-emerald-500/10 dark:text-emerald-300"
         >
           Confirm
         </Button>
@@ -51,7 +51,7 @@ export default function AppointmentActions({ appointmentId, status, role }: Prop
           disabled={loading}
           variant="outline"
           size="sm"
-          className="border-blue-200 text-blue-700 hover:bg-blue-100 hover:text-blue-800"
+          className="rounded-lg border-sky-500/30 text-sky-700 hover:bg-sky-500/10 dark:text-sky-300"
         >
           Complete
         </Button>
@@ -61,6 +61,7 @@ export default function AppointmentActions({ appointmentId, status, role }: Prop
         disabled={loading}
         variant="destructive"
         size="sm"
+        className="rounded-lg"
       >
         Cancel
       </Button>

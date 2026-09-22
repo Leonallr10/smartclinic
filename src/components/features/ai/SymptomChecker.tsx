@@ -9,21 +9,22 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertTriangle } from 'lucide-react';
+import { StatusButton } from '@/components/registry/status-button';
 
 const urgencyStyles = {
-  LOW:       'border-green-200 bg-green-50 text-green-800',
-  MEDIUM:    'border-amber-200 bg-amber-50 text-amber-800',
-  HIGH:      'border-orange-200 bg-orange-50 text-orange-800',
+  LOW: 'border-green-200 bg-green-50 text-green-800',
+  MEDIUM: 'border-amber-200 bg-amber-50 text-amber-800',
+  HIGH: 'border-orange-200 bg-orange-50 text-orange-800',
   EMERGENCY: 'border-red-200 bg-red-50 text-red-800',
 };
 
 export default function SymptomChecker() {
   const [symptoms, setSymptoms] = useState('');
   const [bookOpen, setBookOpen] = useState(false);
-  const { check, loading, result, error } = useSymptomCheck();
+  const { check, result, error } = useSymptomCheck();
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="mx-auto max-w-2xl space-y-6">
       <div className="space-y-3">
         <Label>Describe your symptoms</Label>
         <Textarea
@@ -32,33 +33,38 @@ export default function SymptomChecker() {
           value={symptoms}
           onChange={(e) => setSymptoms(e.target.value)}
         />
-        <Button
-          onClick={() => check(symptoms)}
-          disabled={loading || symptoms.length < 10}
+        <StatusButton
           className="w-full"
+          disabled={symptoms.length < 10}
+          successLabel="Analysed"
+          onClick={() => check(symptoms)}
         >
-          {loading ? 'Analysing...' : 'Check symptoms'}
-        </Button>
+          Check symptoms
+        </StatusButton>
       </div>
 
-      {error && (
-        <p className="text-sm text-destructive">{error}</p>
-      )}
+      {error && <p className="text-sm text-destructive">{error}</p>}
 
       {result && (
         <div className="space-y-4">
-          <div className={`rounded-lg border px-4 py-3 text-sm font-medium ${urgencyStyles[result.urgency]}`}>
+          <div
+            className={`rounded-lg border px-4 py-3 text-sm font-medium ${urgencyStyles[result.urgency]}`}
+          >
             Urgency: {result.urgency} — {result.suggestion}
           </div>
 
           {result.possibleConditions.length > 0 && (
             <div>
-              <p className="text-xs font-medium text-muted-foreground uppercase mb-2">
+              <p className="mb-2 text-xs font-medium uppercase text-muted-foreground">
                 Possible conditions
               </p>
               <div className="flex flex-wrap gap-2">
                 {result.possibleConditions.map((c) => (
-                  <Badge key={c} variant="secondary" className="bg-purple-50 text-purple-700 border-purple-100">
+                  <Badge
+                    key={c}
+                    variant="secondary"
+                    className="border-purple-100 bg-purple-50 text-purple-700"
+                  >
                     {c}
                   </Badge>
                 ))}
@@ -70,9 +76,11 @@ export default function SymptomChecker() {
             <Alert variant="destructive">
               <AlertTriangle className="h-4 w-4" />
               <AlertDescription>
-                <p className="font-medium mb-1">Red flags — seek care immediately if:</p>
-                <ul className="list-disc list-inside text-xs space-y-0.5">
-                  {result.redFlags.map((f) => <li key={f}>{f}</li>)}
+                <p className="mb-1 font-medium">Red flags — seek care immediately if:</p>
+                <ul className="list-inside list-disc space-y-0.5 text-xs">
+                  {result.redFlags.map((f) => (
+                    <li key={f}>{f}</li>
+                  ))}
                 </ul>
               </AlertDescription>
             </Alert>
@@ -80,18 +88,18 @@ export default function SymptomChecker() {
 
           {result.selfCare.length > 0 && (
             <div>
-              <p className="text-xs font-medium text-muted-foreground uppercase mb-2">Self-care tips</p>
-              <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                {result.selfCare.map((t) => <li key={t}>{t}</li>)}
+              <p className="mb-2 text-xs font-medium uppercase text-muted-foreground">
+                Self-care tips
+              </p>
+              <ul className="list-inside list-disc space-y-1 text-sm text-muted-foreground">
+                {result.selfCare.map((t) => (
+                  <li key={t}>{t}</li>
+                ))}
               </ul>
             </div>
           )}
 
-          <Button
-            onClick={() => setBookOpen(true)}
-            variant="outline"
-            className="w-full"
-          >
+          <Button onClick={() => setBookOpen(true)} variant="outline" className="w-full">
             Book an appointment based on this result
           </Button>
         </div>
