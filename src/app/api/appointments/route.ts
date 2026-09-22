@@ -69,14 +69,26 @@ export async function POST(req: NextRequest) {
 
   const { doctorId, scheduledAt, durationMins, notes } = parsed.data;
 
-  const doctor = await prisma.doctor.findUnique({ where: { id: doctorId } });
-  if (!doctor || !doctor.isAvailable) {
-    return NextResponse.json({ error: 'Doctor not available' }, { status: 400 });
+  const doctor = await prisma.doctor.findUnique({
+    where: { id: doctorId },
+    include: { user: { select: { isActive: true } } },
+  });
+  if (!doctor || !doctor.isAvailable || !doctor.isVerified || !doctor.user.isActive) {
+    return NextResponse.json(
+      { error: 'Doctor is not available for booking' },
+      { status: 400 },
+    );
   }
 
-  const patient = await prisma.patient.findUnique({ where: { userId: user.id } });
+  const patient = await prisma.patient.findUnique({
+    where: { userId: user.id },
+    include: { user: { select: { isActive: true } } },
+  });
   if (!patient) {
     return NextResponse.json({ error: 'Patient profile not found' }, { status: 404 });
+  }
+  if (!patient.user.isActive) {
+    return NextResponse.json({ error: 'Account deactivated' }, { status: 403 });
   }
 
   const appointment = await prisma.appointment.create({

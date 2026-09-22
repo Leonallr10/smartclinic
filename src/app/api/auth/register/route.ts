@@ -3,12 +3,21 @@ import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { signToken } from '@/lib/auth';
 
+const PUBLIC_ROLES = new Set(['PATIENT', 'DOCTOR']);
+
 export async function POST(req: NextRequest) {
   try {
     const { name, email, password, role } = await req.json();
 
     if (!name || !email || !password || !role) {
       return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
+    }
+
+    if (!PUBLIC_ROLES.has(role)) {
+      return NextResponse.json(
+        { error: 'Invalid role. Register as Patient or Doctor.' },
+        { status: 400 },
+      );
     }
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -24,6 +33,7 @@ export async function POST(req: NextRequest) {
         email,
         password: hashedPassword,
         role,
+        isActive: true,
       },
     });
 
@@ -33,7 +43,7 @@ export async function POST(req: NextRequest) {
       });
     } else if (role === 'DOCTOR') {
       await prisma.doctor.create({
-        data: { userId: user.id },
+        data: { userId: user.id, isVerified: false },
       });
     }
 
@@ -45,7 +55,7 @@ export async function POST(req: NextRequest) {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
-      maxAge: 60 * 60 * 24, // 1 day
+      maxAge: 60 * 60 * 24,
     });
 
     return response;

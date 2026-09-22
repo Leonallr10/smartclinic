@@ -36,3 +36,22 @@ export const doctorProfileSchema = z.object({
   bio: z.string().max(500).optional(),
   isAvailable: z.boolean().optional(),
 });
+
+export const adminCreateUserSchema = z.object({
+  name: z.string().min(2, 'Name is required').max(100),
+  email: z.string().email('Valid email required'),
+  password: z.string().min(6, 'Password must be at least 6 characters').max(100),
+  role: z.enum(['PATIENT', 'DOCTOR', 'ADMIN']),
+  isActive: z.boolean().optional().default(true),
+});
+
+export const adminUpdateUserSchema = z
+  .object({
+    name: z.string().min(2).max(100).optional(),
+    email: z.string().email().optional(),
+    password: z.string().min(6).max(100).optional(),
+    isActive: z.boolean().optional(),
+  })
+  .refine((data) => Object.keys(data).length > 0, {
+    message: 'No fields to update',
+  });

@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Loader2 } from 'lucide-react';
 import { AuthCard } from '@/components/marketing/auth-card';
@@ -10,12 +10,19 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
-export default function LoginPage() {
+function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get('error') === 'inactive') {
+      setError('Your account has been deactivated. Contact an administrator.');
+    }
+  }, [searchParams]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -50,7 +57,10 @@ export default function LoginPage() {
       footer={
         <p className="text-center text-sm text-muted-foreground">
           Don&apos;t have an account?{' '}
-          <Link href="/auth/register" className="font-medium text-violet-600 hover:underline dark:text-violet-400">
+          <Link
+            href="/auth/register"
+            className="font-medium text-violet-600 hover:underline dark:text-violet-400"
+          >
             Create account
           </Link>
         </p>
@@ -78,15 +88,7 @@ export default function LoginPage() {
         </div>
 
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="password">Password</Label>
-            <Link
-              href="/auth/forgot-password"
-              className="text-xs text-muted-foreground transition hover:text-violet-600 dark:hover:text-violet-400"
-            >
-              Forgot password?
-            </Link>
-          </div>
+          <Label htmlFor="password">Password</Label>
           <Input
             id="password"
             type="password"
@@ -109,5 +111,13 @@ export default function LoginPage() {
         </Button>
       </form>
     </AuthCard>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="text-sm text-muted-foreground">Loading...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

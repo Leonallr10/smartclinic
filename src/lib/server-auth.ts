@@ -1,9 +1,10 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { jwtVerify } from 'jose';
+import { prisma } from '@/lib/prisma';
 
 const secretKey = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'super-secret-key-for-development'
+  process.env.JWT_SECRET || 'super-secret-key-for-development',
 );
 
 export interface Session {
@@ -21,7 +22,19 @@ export async function getSession(): Promise<Session> {
 
   try {
     const { payload } = await jwtVerify(token, secretKey);
-    return { id: payload.id as string, role: payload.role as Session['role'] };
+    const id = payload.id as string;
+
+    const dbUser = await prisma.user.findUnique({
+      where: { id },
+      select: { id: true, role: true, isActive: true },
+    });
+
+    if (!dbUser || !dbUser.isActive) {
+      cookieStore.delete('token');
+      redirect('/auth/login?error=inactive');
+    }
+
+    return { id: dbUser.id, role: dbUser.role as Session['role'] };
   } catch {
     redirect('/auth/login');
   }

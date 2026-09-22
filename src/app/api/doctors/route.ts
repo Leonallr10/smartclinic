@@ -13,7 +13,11 @@ export async function GET(req: NextRequest) {
   const doctors = await prisma.doctor.findMany({
     where: {
       isAvailable: true,
-      ...(specialisation && { specialisation: { contains: specialisation, mode: 'insensitive' } }),
+      isVerified: true,
+      user: { isActive: true },
+      ...(specialisation && {
+        specialisation: { contains: specialisation, mode: 'insensitive' },
+      }),
     },
     include: {
       user: { select: { name: true, email: true } },

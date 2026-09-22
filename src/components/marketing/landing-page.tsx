@@ -17,6 +17,7 @@ import { FeatureGlowCard } from '@/components/marketing/feature-glow-card';
 import { FloatingDockNav } from '@/components/marketing/floating-dock-nav';
 import { HeroDotBackground } from '@/components/marketing/hero-dot-background';
 import { TestimonialsMarquee } from '@/components/marketing/testimonials-marquee';
+import { SiteFooter } from '@/components/marketing/site-footer';
 import { cn } from '@/lib/utils';
 
 const features = [
@@ -298,6 +299,7 @@ export default function LandingPage() {
         </ProCard>
       </section>
 
+      <SiteFooter />
     </div>
   );
 }

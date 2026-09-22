@@ -68,6 +68,13 @@ export default async function DoctorDashboard() {
   return (
     <DashboardLayout role="doctor" userName={doctor.user.name}>
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
+        {!doctor.isVerified && (
+          <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
+            Your account is pending admin verification. Patients cannot book you until you are
+            verified.
+          </div>
+        )}
+
         <header className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
